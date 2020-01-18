@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include "Application.h"
+#include "DelaunayMachine.h"
 
 Application::Application()
 {
@@ -11,10 +14,22 @@ Application::Application()
 
 void Application::run()
 {
+	std::vector<Vector2> pointvec;
+	for (int i = 0; i < pointCount; ++i)
+	{
+		double quake = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+		Vector2 v(rand() % ((int)window->getSize().x - 120) + 60 + quake,
+			      rand() % ((int)window->getSize().y - 120) + 60 + quake);
+		pointvec.push_back(v);
+	}
+
+	//DelaunayMachine delaunayMachine(pointset);
+	//delaunayMachine.delaunay_incremental_AFL();
+
 	while (window->isOpen())
 	{
 		processEvents();
-		render();
+		render(pointvec);
 	}
 }
 
@@ -35,10 +50,15 @@ void Application::processEvents()
 	}
 }
 
-void Application::render()
+void Application::render(std::vector<Vector2>& pointvec)
 {
-	sf::CircleShape shape(100.f);
 	window->clear();
-	window->draw(shape);
+	sf::CircleShape circle(50.0f, 10);
+	circle.setFillColor(sf::Color::Green);
+	for (int i = 0; i < pointCount; ++i)
+	{
+		circle.setOrigin(i - 500, i - 500); //pointvec[i].x, pointvec[i].y);
+		window->draw(circle);
+	}	
 	window->display();
 }

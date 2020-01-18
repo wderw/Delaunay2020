@@ -3,6 +3,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "Vector2.h"
+
 class Application
 {
 public: 
@@ -10,7 +12,7 @@ public:
 
 	void run();
 	void processEvents();
-	void render();
+	void render(std::vector<Vector2>&);
 
 private:
 	std::unique_ptr<sf::ContextSettings> settings;
