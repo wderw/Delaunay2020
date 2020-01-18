@@ -5,7 +5,7 @@ Application::Application()
 	settings = std::make_unique<sf::ContextSettings>();
 	settings->antialiasingLevel = 8;
 
-	window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1440, 900), "Main Window", sf::Style::Default, *settings);
+	window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1440, 900), "Delaunay2020", sf::Style::Default, *settings);
 	window->setVerticalSyncEnabled(true);
 }
 
