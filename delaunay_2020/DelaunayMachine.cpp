@@ -1,9 +1,10 @@
 #include "DelaunayMachine.h"
 
-DelaunayMachine::DelaunayMachine(std::vector<Vector2>& pointset) : pointset(pointset) {}
+DelaunayMachine::DelaunayMachine(std::shared_ptr<std::vector<Vector2>> pointset) : pointset{pointset} {}
 
 void DelaunayMachine::delaunay_incremental_AFL()
 {
+	makeFirstSimplex();
 }
 
 void DelaunayMachine::makeFirstSimplex()
@@ -71,7 +72,6 @@ Vector2 DelaunayMachine::circumCenter(const Vector2& a, const Vector2& b, const 
 		double Px = (D * E - B * F) / G;
 		double Py = (A * F - C * E) / G;
 
-		// tutaj zwraca wartoœæ jako punkt.
 		return Vector2(Px, Py);
 	}
 }

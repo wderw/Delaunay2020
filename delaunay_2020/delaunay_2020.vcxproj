@@ -140,6 +140,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="DelaunayMachine.h" />
     <ClInclude Include="Structures.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

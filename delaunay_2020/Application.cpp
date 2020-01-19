@@ -3,33 +3,58 @@
 #include "Application.h"
 #include "DelaunayMachine.h"
 
+#include <Windows.h>
+
 Application::Application() : event(std::make_unique<sf::Event>())
 {
 	settings = std::make_unique<sf::ContextSettings>();
-	settings->antialiasingLevel = 8;
+	settings->antialiasingLevel = 4;
 
 	window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1440, 900), "Delaunay2020", sf::Style::Default, *settings);
 	window->setVerticalSyncEnabled(true);
+
+	vertexShape->setFillColor(sf::Color::Green);
 }
 
-void Application::run()
+void Application::preparePointset()
 {
-	std::vector<Vector2> pointvec;
+	pointset = std::make_shared<std::vector<Vector2>>();
 	for (int i = 0; i < pointCount; ++i)
 	{
 		double quake = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
 		Vector2 v(rand() % ((int)window->getSize().x - 120) + 60 + quake,
-			      rand() % ((int)window->getSize().y - 120) + 60 + quake);
-		pointvec.push_back(v);
+			rand() % ((int)window->getSize().y - 120) + 60 + quake);
+		pointset->push_back(v);
 	}
+}
 
-	//DelaunayMachine delaunayMachine(pointset);
-	//delaunayMachine.delaunay_incremental_AFL();
+void Application::performTriangulationAndMeasurements()
+{
+	LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
+	LARGE_INTEGER Frequency;
+	QueryPerformanceFrequency(&Frequency);
+	QueryPerformanceCounter(&StartingTime);
+
+	DelaunayMachine delaunayMachine(pointset);
+	delaunayMachine.delaunay_incremental_AFL();
+
+	QueryPerformanceCounter(&EndingTime);
+	ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
+	ElapsedMicroseconds.QuadPart *= 1000000;
+	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
+
+	std::cout << "Elapsed us: " << ElapsedMicroseconds.QuadPart << std::endl;
+}
+
+void Application::run()
+{
+	preparePointset();
+	performTriangulationAndMeasurements();
 
 	while (window->isOpen())
 	{
 		processEvents();
-		render(pointvec);
+		render();
 	}
 }
 
@@ -49,14 +74,13 @@ void Application::processEvents()
 	}
 }
 
-void Application::render(std::vector<Vector2>& pointvec)
+void Application::render()
 {
-	window->clear();
-	circle->setFillColor(sf::Color::Green);
+	window->clear();	
 	for (int i = 0; i < pointCount; ++i)
 	{
-		circle->setPosition(sf::Vector2f(pointvec[i].x, pointvec[i].y));
-		window->draw(*circle);
+		vertexShape->setPosition(sf::Vector2f((*pointset)[i].x, (*pointset)[i].y));
+		window->draw(*vertexShape);
 	}	
 	window->display();
 }

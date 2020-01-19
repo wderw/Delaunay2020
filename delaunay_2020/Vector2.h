@@ -3,6 +3,9 @@
 #include <cmath>
 #include <functional>
 
+namespace d20
+{
+
 class Vector2
 {
 public:
@@ -34,3 +37,6 @@ public:
 
 	double x, y;
 };
+}
+
+using namespace d20;
