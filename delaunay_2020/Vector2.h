@@ -29,6 +29,7 @@ public:
 	double magnitude() const;
 	double squareMagnitude() const;
 	double distanceTo(const Vector2& other) const;
+	double squareDistanceTo(const Vector2& other) const;
 
 	void normalize();
 	Vector2 normalized() const;

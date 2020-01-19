@@ -75,6 +75,11 @@ double Vector2::distanceTo(const Vector2 & other) const
 	return Vector2(other - *this).magnitude();
 }
 
+double Vector2::squareDistanceTo(const Vector2& other) const
+{
+	return Vector2(other - *this).squareMagnitude();
+}
+
 void Vector2::normalize()
 {
 	double length = magnitude();

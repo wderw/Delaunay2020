@@ -8,7 +8,7 @@
 Application::Application() : event(std::make_unique<sf::Event>())
 {
 	settings = std::make_unique<sf::ContextSettings>();
-	settings->antialiasingLevel = 4;
+	settings->antialiasingLevel = 0;
 
 	window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1440, 900), "Delaunay2020", sf::Style::Default, *settings);
 	window->setVerticalSyncEnabled(true);
@@ -30,21 +30,8 @@ void Application::preparePointset()
 
 void Application::performTriangulationAndMeasurements()
 {
-	LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
-	LARGE_INTEGER Frequency;
-	QueryPerformanceFrequency(&Frequency);
-	QueryPerformanceCounter(&StartingTime);
-
 	DelaunayMachine delaunayMachine(pointset);
 	delaunayMachine.delaunay_incremental_AFL();
-
-	QueryPerformanceCounter(&EndingTime);
-	ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
-	ElapsedMicroseconds.QuadPart *= 1000000;
-	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
-
-	std::cout << "Elapsed us: " << ElapsedMicroseconds.QuadPart << std::endl;
-	std::cout << "Elapsed ms: " << ElapsedMicroseconds.QuadPart / 1000 << std::endl;
 }
 
 void Application::run()

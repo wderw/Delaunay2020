@@ -22,6 +22,6 @@ private:
 	std::unique_ptr<sf::ContextSettings> settings;
 	std::unique_ptr<sf::RenderWindow> window;
 	std::unique_ptr<sf::Event> event;
-	std::unique_ptr<sf::CircleShape> vertexShape{ std::make_unique<sf::CircleShape>(0.3f, 3) };
+	std::unique_ptr<sf::CircleShape> vertexShape{ std::make_unique<sf::CircleShape>(1.0f, 3) };
 	std::shared_ptr<std::vector<Vector2>> pointset;
 };

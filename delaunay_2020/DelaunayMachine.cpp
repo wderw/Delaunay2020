@@ -4,6 +4,8 @@
 #include "DelaunayMachine.h"
 #include "Utils.h"
 
+#include <Windows.h>
+
 DelaunayMachine::DelaunayMachine(std::shared_ptr<std::vector<Vector2>> pointset) : pointset{pointset} {}
 
 void DelaunayMachine::delaunay_incremental_AFL()
@@ -14,13 +16,50 @@ void DelaunayMachine::delaunay_incremental_AFL()
 	makeFirstSimplex();
 }
 
+int findClosest(std::shared_ptr<std::vector<Vector2>> arr, const Vector2& target)
+{
+	double min = DBL_MAX;	
+	int index = 0;
+	int midpoint = arr->size() / 2;
+
+	for (int i = 0; i < arr->size(); ++i)	
+	{
+		if (i == midpoint) continue;
+
+		double current = target.squareDistanceTo((*arr)[i]);
+		if (current < min)
+		{
+			min = current;
+			index = i;
+		}			
+	}
+	return index;
+}
+
 void DelaunayMachine::makeFirstSimplex()
 {
 	//Utils::printPointset(pointset);
 
-	double alphaX = pointset[pointset->size() / 2];
-	std::shared_ptr<Vector2> p1 = findFirstPoint(alphaX);
-	
+	//double alphaX = (*pointset)[pointset->size() / 2].x;
+	//std::shared_ptr<Vector2> p1 = findFirstPoint(alphaX);
+
+	LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
+	LARGE_INTEGER Frequency;
+	QueryPerformanceFrequency(&Frequency);
+	QueryPerformanceCounter(&StartingTime);
+
+	const Vector2& midVector = (*pointset)[pointset->size() / 2];
+	int indexOfClosest = findClosest(pointset, midVector);
+
+	QueryPerformanceCounter(&EndingTime);
+	ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
+	ElapsedMicroseconds.QuadPart *= 1000000;
+	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
+
+	std::cout << "Elapsed us: " << ElapsedMicroseconds.QuadPart << std::endl;
+	std::cout << "Elapsed ms: " << ElapsedMicroseconds.QuadPart / 1000 << std::endl;
+
+	std::cout << "indexOfClosest: " << indexOfClosest << std::endl;
 }
 
 std::shared_ptr<Vector2> DelaunayMachine::findFirstPoint(double alfa)

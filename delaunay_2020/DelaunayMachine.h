@@ -8,7 +8,7 @@
 
 using namespace d20;
 
-constexpr int pointCount = 1000;
+constexpr int pointCount = 1000000;
 
 class DelaunayMachine
 {
