@@ -5,7 +5,7 @@
 #include "Vector2.h"
 #include "Structures.h"
 
-constexpr int pointCount = 10000;
+constexpr int pointCount = 1000000;
 
 class DelaunayMachine
 {

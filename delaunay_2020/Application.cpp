@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "DelaunayMachine.h"
 
-Application::Application()
+Application::Application() : event(std::make_unique<sf::Event>())
 {
 	settings = std::make_unique<sf::ContextSettings>();
 	settings->antialiasingLevel = 8;
@@ -34,11 +34,10 @@ void Application::run()
 }
 
 void Application::processEvents()
-{
-	sf::Event event;
-	while (window->pollEvent(event))
+{	
+	while (window->pollEvent(*event))
 	{
-		switch (event.type)
+		switch (event->type)
 		{
 		case sf::Event::Closed:
 		{
@@ -53,12 +52,11 @@ void Application::processEvents()
 void Application::render(std::vector<Vector2>& pointvec)
 {
 	window->clear();
-	sf::CircleShape circle(50.0f, 10);
-	circle.setFillColor(sf::Color::Green);
+	circle->setFillColor(sf::Color::Green);
 	for (int i = 0; i < pointCount; ++i)
 	{
-		circle.setOrigin(i - 500, i - 500); //pointvec[i].x, pointvec[i].y);
-		window->draw(circle);
+		circle->setPosition(sf::Vector2f(pointvec[i].x, pointvec[i].y));
+		window->draw(*circle);
 	}	
 	window->display();
 }
