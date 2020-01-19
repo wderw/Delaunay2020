@@ -23,7 +23,7 @@ void Application::preparePointset()
 	{
 		double quake = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
 		Vector2 v(rand() % ((int)window->getSize().x - 120) + 60 + quake,
-			rand() % ((int)window->getSize().y - 120) + 60 + quake);
+			      rand() % ((int)window->getSize().y - 120) + 60 + quake);
 		pointset->push_back(v);
 	}
 }
@@ -44,6 +44,7 @@ void Application::performTriangulationAndMeasurements()
 	ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
 
 	std::cout << "Elapsed us: " << ElapsedMicroseconds.QuadPart << std::endl;
+	std::cout << "Elapsed ms: " << ElapsedMicroseconds.QuadPart / 1000 << std::endl;
 }
 
 void Application::run()

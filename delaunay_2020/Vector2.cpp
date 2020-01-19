@@ -65,6 +65,11 @@ double Vector2::magnitude() const
 	return sqrt(x * x + y * y);
 }
 
+double Vector2::squareMagnitude() const
+{
+	return x * x + y * y;
+}
+
 double Vector2::distanceTo(const Vector2 & other) const
 {
 	return Vector2(other - *this).magnitude();

@@ -27,6 +27,7 @@ public:
 	static double dotProduct(const Vector2& v1, const Vector2& v2);
 
 	double magnitude() const;
+	double squareMagnitude() const;
 	double distanceTo(const Vector2& other) const;
 
 	void normalize();
@@ -38,5 +39,3 @@ public:
 	double x, y;
 };
 }
-
-using namespace d20;

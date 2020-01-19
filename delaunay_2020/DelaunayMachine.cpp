@@ -1,14 +1,31 @@
+#include <iostream>
+#include <algorithm>
+
 #include "DelaunayMachine.h"
+#include "Utils.h"
 
 DelaunayMachine::DelaunayMachine(std::shared_ptr<std::vector<Vector2>> pointset) : pointset{pointset} {}
 
 void DelaunayMachine::delaunay_incremental_AFL()
 {
+    std::sort(pointset->begin(), pointset->end(),
+	    [](const Vector2& a, const Vector2& b) -> bool { return a.x < b.x; });
+
 	makeFirstSimplex();
 }
 
 void DelaunayMachine::makeFirstSimplex()
-{	
+{
+	//Utils::printPointset(pointset);
+
+	double alphaX = pointset[pointset->size() / 2];
+	std::shared_ptr<Vector2> p1 = findFirstPoint(alphaX);
+	
+}
+
+std::shared_ptr<Vector2> DelaunayMachine::findFirstPoint(double alfa)
+{
+	
 }
 
 // funkcja sprawdza czy punkty p oraz cp leza po tej samej stronie linii wyznaczanej przez wektor f
